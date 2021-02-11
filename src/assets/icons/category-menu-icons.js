@@ -1,0 +1,9 @@
+export { FruitsVegetable } from '../icons/FruitsVegetable';
+export { FacialCare } from '../icons/FacialCare';
+export { Handbag } from '../icons/Handbag';
+export { DressIcon } from '../icons/DressIcon';
+export { FurnitureIcon } from '../icons/FurnitureIcon';
+export { BookIcon } from '../icons/BookIcon';
+export { MedicineIcon } from '../icons/MedicineIcon';
+export { Restaurant } from '../icons/Restaurant';
+export { Bakery } from '../icons/Bakery';
