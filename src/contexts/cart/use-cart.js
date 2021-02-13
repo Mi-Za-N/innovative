@@ -7,10 +7,21 @@ const INITIAL_STATE = {
   items: [],
   isRestaurant: false,
   coupon: null,
+  productInfo: [],
+  searchText: "",
 };
 
 const useCartActions = (initialCart = INITIAL_STATE) => {
   const [state, dispatch] = useReducer(reducer, initialCart);
+  const saveProductHandler = (allProduct) => {
+    // console.log(allProduct);
+    dispatch({ type: 'SAVE_PRODUCT', payload: {allProduct} });
+  };
+
+  const getSearchTextHandler = (text) => {
+    console.log(text);
+    dispatch({ type: 'GET_SEARCH_TEXT', payload: {text} });
+  };
 
   const addItemHandler = (item, quantity = 1) => {
     dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity } });
@@ -67,6 +78,8 @@ const useCartActions = (initialCart = INITIAL_STATE) => {
     state,
     getItemsCount,
     rehydrateLocalState,
+    saveProductHandler,
+    getSearchTextHandler,
     addItemHandler,
     removeItemHandler,
     clearItemFromCartHandler,
@@ -89,6 +102,8 @@ export const CartProvider = ({ children }) => {
     rehydrateLocalState,
     getItemsCount,
     addItemHandler,
+    saveProductHandler,
+    getSearchTextHandler,
     removeItemHandler,
     clearItemFromCartHandler,
     clearCartHandler,
@@ -109,10 +124,14 @@ export const CartProvider = ({ children }) => {
       value={{
         isOpen: state.isOpen,
         items: state.items,
+        productInfo: state.productInfo,
+        searchText: state.searchText,
         coupon: state.coupon,
         isRestaurant: state.isRestaurant,
         cartItemsCount: state.items?.length,
         itemsCount: getItemsCount,
+        saveProduct: saveProductHandler,
+        getSearchText: getSearchTextHandler,
         addItem: addItemHandler,
         removeItem: removeItemHandler,
         removeItemFromCart: clearItemFromCartHandler,

@@ -48,7 +48,10 @@ const clearItemFromCart = (state, action) => {
 };
 
 export const reducer = (state, action) => {
+  // console.log(action.payload.allProduct);
   switch (action.type) {
+    case 'SAVE_PRODUCT':
+      return { ...state, productInfo: action.payload.allProduct };
     case 'REHYDRATE':
       return { ...state, ...action.payload };
     case 'TOGGLE_CART':

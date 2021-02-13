@@ -1,14 +1,14 @@
-import React,{ useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '../components/button/button';
 import AuthenticationForm from '../features/authentication-form';
 import { openModal } from '@redq/reuse-modal';
 import { RightMenuBox } from '../layouts/header/menu/right-menu/right-menu.style';
-import { openSidbar } from "../store/actions/webDataInfo";
+import { useAppState, useAppDispatch } from "../contexts/app/app.provider"
 
 const AuthMenu = () => {
   const Router = useRouter();
+  const dispatch = useAppDispatch();
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     let CustInfo = JSON.parse(localStorage.getItem('user'));
@@ -21,14 +21,13 @@ const AuthMenu = () => {
   };
 
   const handleLogOut = async () => {
-     dispatch(openSidbar("0"));
+    dispatch({ type: 'IS_SIDEBAR_OPEN', payload: '0' });
     localStorage.removeItem('user');
     setIsLogin(false);
   };
 
-  const dispatch = useDispatch();
   const handleJoin = () => {
-     dispatch(openSidbar("0"));
+    dispatch({ type: 'IS_SIDEBAR_OPEN', payload: '0' });
 
     openModal({
       show: true,

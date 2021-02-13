@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { baseURL, subTypeURL } from "../common/baseUrl";
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-import { saveProduct,saveOrder, clickedProduct, isStateUpdated, openSidbar } from "../store/actions/webDataInfo";
 import { useRefScroll } from '../utils/use-ref-scroll';
 import dynamic from 'next/dynamic';
 import { MobileBanner } from '../components/banner/mobile-banner';
 import { Modal } from '@redq/reuse-modal';
-
+import { useAppState, useAppDispatch } from "../contexts/app/app.provider"
+import { useRouter } from 'next/router';
 import {
   MainContentArea,
   SidebarSection,
@@ -28,82 +27,55 @@ import { Banner } from '../components/banner/banner-two';
 // import FurnitureImgOne from '../assets/images/banner/furniture-banner-1.jpg';
 // import FurnitureImgTwo from '../assets/images/banner/furniture-banner-2.jpg';
 
-const HomeScreen = ({ deviceType }) => {
-  let [products, setProducts] = useState([]);
+function HomeScreen(deviceType) { 
+  const showProduct = useAppState("showProductInfo");
+  const mobile = useAppState("isMobile");
+  const tablet = useAppState("isTablet");
+  const desktop = useAppState("isDestop");
   const [sidebarItem, setSidebar] = useState([]);
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [loadData, setLoadData] = useState(true)
-
   const { elRef: targetRef, scroll } = useRefScroll({
     percentOfElement: 0,
     percentOfContainer: 0,
     offsetPX: -110,
   });
 
-  const dispatch = useDispatch();
-  const status = useSelector((state) => state.dataInfo.statusUpdate);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    scroll();
-    axios.get(baseURL + '11')
+   
+    dispatch({ type: 'IS_MOBILE', payload: deviceType.deviceType.mobile });
+    dispatch({ type: 'IS_TABLET', payload: deviceType.deviceType.tablet });
+    dispatch({ type: 'IS_DESKTOP', payload: deviceType.deviceType.desktop });
+    axios.get(baseURL)
       .then((res) => {
-        setSidebar(res.data.sidebar.menu_item);
-        dispatch(saveProduct(res.data.sametypeItem));
+        setSidebar(res.data.menu_item);
+        dispatch({ type: 'SAVE_PRODUCT_INFO', payload: res.data.allProductInfo });
         setLoading(false);
-        setLoadData(false);
-        dispatch(saveOrder(res.data.orderInfo));
-        
-        loadDataStatUp(res.data.sametypeItem);
       })
       .catch((error) => {
+        alert('okhh');
         console.log('Api call error');
         setError(true)
       })
   }, []);
 
-
-  //const status = useSelector((state) => state.dataInfo.statusUpdate);
-  const prodInfo = useSelector((state) => state.dataInfo.productInfo);
-  // console.log(prodInfo);
-
-  if (status == '1') {
-    scroll();
-    dispatch(isStateUpdated('0'));
-    setProducts(prodInfo);
-  }
-
-  const loadDataStatUp = (sametypeItem) => {
-    dispatch(isStateUpdated('0'));
-    setProducts(sametypeItem);
-  }
-
   const loadDataOnClick = (id, name) => {
-    dispatch(openSidbar("0"));
-    if(name=='productType'){
-      axios.get(baseURL + id)
-      .then((res) => {
-        dispatch(clickedProduct(res.data.sametypeItem));
-        setLoading(false);
-        setLoadData(false);
-      })
-      .catch((error) => {
-        console.log('Api call error');
-        setError(true)
-      })
-    }else{   
-    setLoading(true);
-    axios.get(subTypeURL + id)
-      .then((res) => {
-        dispatch(clickedProduct(res.data.subCategoriesItem));
-        setLoading(false);
-        setLoadData(false);
-      })
-      .catch((error) => {
-        console.log('Api call error');
-        setError(true)
-      })
+    if (name == 'productType') {
+      if (id == 12) {
+
+      }
+      else if (id == 13) {
+
+      } else {
+        dispatch({ type: 'SAME_TYPE_PRODUCT_INFO', payload: id });
+      }
+    } else {
+      dispatch({ type: 'SUBTYPE_PRODUCT_INFO', payload: id });
     }
+    dispatch({ type: 'IS_SIDEBAR_OPEN', payload: '0' });
+    window.scrollTo(0, 0);
   }
 
   const bannerSlides = [
@@ -121,7 +93,7 @@ const HomeScreen = ({ deviceType }) => {
     <>
       <ModalProvider>
         <Modal>
-          <MobileBanner 
+          <MobileBanner
           // intlTitleId={page?.banner_title_id} 
           // type={PAGE_TYPE} 
           />
@@ -130,7 +102,7 @@ const HomeScreen = ({ deviceType }) => {
               clickOnCategory={loadDataOnClick}
               // type={PAGE_TYPE} 
               sidebar={sidebarItem}
-              deviceType={deviceType} />
+              deviceType={{ mobile, tablet, desktop }} />
           </MobileCarouselDropdown>
           <OfferSection>
           </OfferSection>
@@ -140,7 +112,7 @@ const HomeScreen = ({ deviceType }) => {
                 sidebar={sidebarItem}
                 clickOnCategory={loadDataOnClick}
                 // type={PAGE_TYPE}
-                deviceType={deviceType}
+                deviceType={{ mobile, tablet, desktop }}
               />
             </SidebarSection>
             <ContentSection>
@@ -150,22 +122,22 @@ const HomeScreen = ({ deviceType }) => {
                   <div> loading.....</div>
                 ) : error ? (
                   <div>an error occur</div>
-                ) : products.length === 0 ? (
+                ) : showProduct.length == 0 ? (
                   <div>There is no products</div>
                 ) : (
-                      <div ref={targetRef}>
-                        <Product
-                          productList={products}
-                          // type={PAGE_TYPE}
-                          deviceType={deviceType}
-                          fetchLimit={20}
-                        />
+                        <div ref={targetRef}>
+                          <Product
+                            productList={showProduct}
+                            // type={PAGE_TYPE}
+                            deviceType={{ mobile, tablet, desktop }}
+                            fetchLimit={20}
+                          />
                         </div>
-                  )}
+                      )}
               </div>
             </ContentSection>
           </MainContentArea>
-          <CartPopUp deviceType={deviceType} />
+          <CartPopUp deviceType={{ mobile, tablet, desktop }} />
         </Modal>
       </ModalProvider>
     </>

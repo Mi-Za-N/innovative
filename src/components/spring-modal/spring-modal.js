@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import {openSidbar} from "../../store/actions/webDataInfo"
+import { useAppState, useAppDispatch } from "../../contexts/app/app.provider"
 import { useTransition, animated } from 'react-spring';
 import { BaseModal } from 'react-spring-modal';
 import { CloseIcon } from '../../assets/icons/CloseIcon';
@@ -19,10 +18,9 @@ const SpringModal = ({
   children,
   style = {},
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const toggleHandler = () => {
-    dispatch(openSidbar("0"));
-    // console.log("okay");
+    dispatch({ type: 'IS_SIDEBAR_OPEN', payload: '0' });
   };
 
 

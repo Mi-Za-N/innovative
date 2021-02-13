@@ -7,19 +7,17 @@ import Popover from '../../../components/popover/popover';
 import { AuthorizedMenu } from './authorized-menu';
 import AuthenticationForm from '../../../features/authentication-form';
 import { openModal } from '@redq/reuse-modal';
-import { useDispatch, useSelector} from "react-redux";
-import { isLogin } from "../../../store/actions/webDataInfo";
-
+import { useAppState, useAppDispatch } from "../../../contexts/app/app.provider"
 
 const AuthMenu = () => {
-  const Login = useSelector((state) => state.dataInfo.isLogin);
-  const dispatch = useDispatch();
+  const Login = useAppState("isLogin");
+  const dispatch = useAppDispatch();
   const Router = useRouter();
-  // const [isLogin, setIsLogin] = useState(false);
+  
   useEffect(() => {
     let CustInfo = JSON.parse(localStorage.getItem('user'));
     if (CustInfo !== null) {
-     dispatch(isLogin(true));
+      dispatch({ type: 'IS_LOGIN', payload: true });
     }
   }, []);
   const handleSubmit = async () => {
@@ -28,7 +26,7 @@ const AuthMenu = () => {
 
   const handleLogOut = async () => {
     localStorage.removeItem('user');
-    dispatch(isLogin(false));
+    dispatch({ type: 'IS_LOGIN', payload: false });
   };
 
   const handleJoin = () => {

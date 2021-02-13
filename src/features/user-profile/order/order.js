@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-import { saveOrder } from "../../../store/actions/webDataInfo";
+import { useAppState, useAppDispatch } from "../../../contexts/app/app.provider"
 import { MY_ORDER_URL, API_KEY, IMAGE_URL } from '../../../common/baseUrl';
 import { Scrollbar } from '../../../components/scrollbar/scrollbar';
 import {
@@ -84,7 +83,7 @@ const OrdersContent = () => {
   const [targetRef, size] = useComponentSize();
   const orderListHeight = size.height - 79;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     let CustInfo = JSON.parse(localStorage.getItem('user'));
     const url = MY_ORDER_URL + CustInfo.mobile + '/' + API_KEY + '/' + 'accesskey';
@@ -92,9 +91,8 @@ const OrdersContent = () => {
     scroll();
     axios.get(url)
       .then((res) => {
-        dispatch(saveOrder(res.data.orderInfo));
+        dispatch({ type: 'SAVE_ORDER_INFO', payload: res.data.orderInfo });
         setLoading(false);
-        console.log(res.data.orderInfo.length)
         setActive(res.data.orderInfo);
         if (res.data.orderInfo.length > 0) {
           loadFirstOrder(res.data.orderInfo[0]);
@@ -107,7 +105,7 @@ const OrdersContent = () => {
         setLoading(true);
       })
   }, []);
-  const ordersData = useSelector((state) => state.dataInfo.saveOrder);
+  const ordersData = useAppState("orderInfo");
   console.log(ordersData);
 
   if (loading) {

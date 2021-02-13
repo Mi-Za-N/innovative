@@ -23,6 +23,7 @@ const NavLink = ({
   iconClass,
   dynamic,
 }) => {
+  
   const isCurrentPath = router.pathname === href || router.asPath === href;
   return (
     <div onClick={onClick} className={className ? className : ''}>

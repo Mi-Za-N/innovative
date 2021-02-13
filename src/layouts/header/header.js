@@ -12,10 +12,6 @@ import Search from '../../features/search/search';
 
 
 const Header = ({ className }) => {
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = React.useContext(AuthContext);
   // const { pathname, query } = useRouter();
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
@@ -52,7 +48,6 @@ const Header = ({ className }) => {
        />
       <Search minimal={true} className="headerSearch" />
       <RightMenu
-        isAuthenticated={isAuthenticated}
         onJoin={handleJoin}
         onLogout={handleLogout}
         // avatar={UserImage}

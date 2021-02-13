@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { openModal } from '@redq/reuse-modal';
 import Router from 'next/router';
-import { useDispatch } from 'react-redux';
-import {openSidbar} from "../../store/actions/webDataInfo"
+import { useAppState, useAppDispatch } from '../../contexts/app/app.provider';
 import Drawer from '../../components/drawer/drawer';
 import { CloseIcon } from '../../assets/icons/CloseIcon';
 import { AuthContext } from '../../contexts/auth/auth.context';
@@ -26,27 +25,16 @@ import {
   MOBILE_DRAWER_MENU,
   PROFILE_PAGE,
 } from '../../site-settings/site-navigation';
-import { useAppState, useAppDispatch } from '../../contexts/app/app.provider';
+
 
 const MobileDrawer = () => {
     
-
-
-
   const isDrawerOpen = useAppState('isDrawerOpen');
-  const dispatch = useDispatch();
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
   // Toggle drawer
   const toggleHandler = () => {
-    dispatch(openSidbar("1"));
-    // console.log("okay");
+    dispatch({ type: 'IS_SIDEBAR_OPEN', payload: '1' });
   };
-
- 
-
 
   return (
   <Drawer

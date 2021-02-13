@@ -1,14 +1,14 @@
 export const HOME_PAGE = '/';
-export const GROCERY_PAGE = '/grocery';
-export const GROCERY_PAGE_TWO = '/grocery-two';
-export const BAKERY_PAGE = '/bakery';
-export const MAKEUP_PAGE = '/makeup';
-export const CLOTHING_PAGE = '/clothing';
-export const BAGS_PAGE = '/bags';
-export const BOOK_PAGE = '/book';
-export const FURNITURE_PAGE = '/furniture';
-export const FURNITURE_PAGE_TWO = '/furniture-two';
-export const MEDICINE_PAGE = '/medicine';
+// export const GROCERY_PAGE = '/grocery';
+// export const GROCERY_PAGE_TWO = '/grocery-two';
+// export const BAKERY_PAGE = '/bakery';
+// export const MAKEUP_PAGE = '/makeup';
+// export const CLOTHING_PAGE = '/clothing';
+// export const BAGS_PAGE = '/bags';
+// export const BOOK_PAGE = '/book';
+// export const FURNITURE_PAGE = '/furniture';
+// export const FURNITURE_PAGE_TWO = '/furniture-two';
+// export const MEDICINE_PAGE = '/medicine';
 // export const RESTAURANT_PAGE = '/restaurant';
 export const REQUEST_MEDICINE_PAGE = '/request-medicine';
 export const CHECKOUT_PAGE = '/checkout';
@@ -48,11 +48,13 @@ export const REQUEST_MEDICINE_MENU_ITEM = {
   defaultMessage: 'Request Medicine',
   href: REQUEST_MEDICINE_PAGE,
 };
+
 export const PROFILE_MENU_ITEM = {
   id: 'nav.profile',
   defaultMessage: 'Profile',
   href: PROFILE_PAGE,
 };
+
 export const AUTHORIZED_MENU_ITEMS = [
   PROFILE_MENU_ITEM,
   {
@@ -83,84 +85,84 @@ export const AUTHORIZED_MENU_ITEMS = [
   },
 ];
 // category menu items for header navigation
-export const CATEGORY_MENU_ITEMS = [
-  {
-    id: 'nav.grocery',
-    href: GROCERY_PAGE,
-    defaultMessage: 'Grocery',
-    icon: 'FruitsVegetable',
-    dynamic: true,
-  },
-  {
-    id: 'nav.grocery-two',
-    href: GROCERY_PAGE_TWO,
-    defaultMessage: 'Grocery Two',
-    icon: 'FruitsVegetable',
-    dynamic: false,
-  },
-  {
-    id: 'nav.bakery',
-    href: BAKERY_PAGE,
-    defaultMessage: 'Bakery',
-    icon: 'Bakery',
-    dynamic: false,
-  },
-  {
-    id: 'nav.makeup',
-    defaultMessage: 'Makeup',
-    href: MAKEUP_PAGE,
-    icon: 'FacialCare',
-    dynamic: true,
-  },
-  {
-    id: 'nav.bags',
-    defaultMessage: 'Bags',
-    href: BAGS_PAGE,
-    icon: 'Handbag',
-    dynamic: true,
-  },
-  {
-    id: 'nav.clothing',
-    defaultMessage: 'Clothing',
-    href: CLOTHING_PAGE,
-    icon: 'DressIcon',
-    dynamic: true,
-  },
-  {
-    id: 'nav.furniture',
-    defaultMessage: 'Furniture',
-    href: FURNITURE_PAGE,
-    icon: 'FurnitureIcon',
-    dynamic: true,
-  },
-  {
-    id: 'nav.furniture-two',
-    defaultMessage: 'Furniture Two',
-    href: FURNITURE_PAGE_TWO,
-    icon: 'FurnitureIcon',
-    dynamic: false,
-  },
-  {
-    id: 'nav.book',
-    defaultMessage: 'Book',
-    href: BOOK_PAGE,
-    icon: 'BookIcon',
-    dynamic: true,
-  },
-  {
-    id: 'nav.medicine',
-    defaultMessage: 'Medicine',
-    href: MEDICINE_PAGE,
-    icon: 'MedicineIcon',
-    dynamic: true,
-  },
-  // {
-  //   id: 'nav.foods',
-  //   defaultMessage: 'Foods',
-  //   href: RESTAURANT_PAGE,
-  //   icon: 'Restaurant',
-  // },
-];
+// export const CATEGORY_MENU_ITEMS = [
+//   // {
+//   //   id: 'nav.grocery',
+//   //   href: GROCERY_PAGE,
+//   //   defaultMessage: 'Grocery',
+//   //   icon: 'FruitsVegetable',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.grocery-two',
+//   //   href: GROCERY_PAGE_TWO,
+//   //   defaultMessage: 'Grocery Two',
+//   //   icon: 'FruitsVegetable',
+//   //   dynamic: false,
+//   // },
+//   // {
+//   //   id: 'nav.bakery',
+//   //   href: BAKERY_PAGE,
+//   //   defaultMessage: 'Bakery',
+//   //   icon: 'Bakery',
+//   //   dynamic: false,
+//   // },
+//   // {
+//   //   id: 'nav.makeup',
+//   //   defaultMessage: 'Makeup',
+//   //   href: MAKEUP_PAGE,
+//   //   icon: 'FacialCare',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.bags',
+//   //   defaultMessage: 'Bags',
+//   //   href: BAGS_PAGE,
+//   //   icon: 'Handbag',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.clothing',
+//   //   defaultMessage: 'Clothing',
+//   //   href: CLOTHING_PAGE,
+//   //   icon: 'DressIcon',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.furniture',
+//   //   defaultMessage: 'Furniture',
+//   //   href: FURNITURE_PAGE,
+//   //   icon: 'FurnitureIcon',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.furniture-two',
+//   //   defaultMessage: 'Furniture Two',
+//   //   href: FURNITURE_PAGE_TWO,
+//   //   icon: 'FurnitureIcon',
+//   //   dynamic: false,
+//   // },
+//   // {
+//   //   id: 'nav.book',
+//   //   defaultMessage: 'Book',
+//   //   href: BOOK_PAGE,
+//   //   icon: 'BookIcon',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.medicine',
+//   //   defaultMessage: 'Medicine',
+//   //   href: MEDICINE_PAGE,
+//   //   icon: 'MedicineIcon',
+//   //   dynamic: true,
+//   // },
+//   // {
+//   //   id: 'nav.foods',
+//   //   defaultMessage: 'Foods',
+//   //   href: RESTAURANT_PAGE,
+//   //   icon: 'Restaurant',
+//   // },
+// ];
 
 export const MOBILE_DRAWER_MENU = [
   HOME_MENU_ITEM,

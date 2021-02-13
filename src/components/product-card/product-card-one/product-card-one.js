@@ -165,7 +165,7 @@ const ProductCard = ({
               borderRadius={100}
             >
               <ButtonText>
-                <FormattedMessage id="addCartButton" defaultMessage="Out of Stock" />
+                <FormattedMessage id="addCartButton" defaultMessage="Stock out" />
               </ButtonText>
             </Button>
           )}

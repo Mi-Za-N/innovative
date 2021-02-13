@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useDispatch, useSelector} from "react-redux";
 import Router, { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
@@ -118,8 +117,8 @@ const CheckoutWithSidebar = ({ token, deviceType }) => {
     isRestaurant,
     toggleRestaurant,
   } = useCart();
-  const Login = useSelector((state) => state.dataInfo.isLogin);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const Login = useAppState("isLogin");
 
   const [mobileNo, setMobileNo] = useState('');
   const [name, setName] = useState('');
@@ -143,7 +142,7 @@ const CheckoutWithSidebar = ({ token, deviceType }) => {
       setAddress(CustInfo.address);
       setMobileNo(CustInfo.mobile);
       setClickOnLogin(true);
-     dispatch(isLogin(true));
+      dispatch({ type: 'IS_LOGIN', payload: true });
     }
   }, []);
 
@@ -186,7 +185,7 @@ const CheckoutWithSidebar = ({ token, deviceType }) => {
   }
 
   const send_sms = (url, isConnectionAvailable) => {
-    console.log(url);
+    
     if (isConnectionAvailable) {
       setClickOnLogin(true);
       return fetch(url)
@@ -285,12 +284,12 @@ const CheckoutWithSidebar = ({ token, deviceType }) => {
     }
 
     localStorage.setItem('user', JSON.stringify(customerInfo));
-    dispatch(isLogin(true));
+    dispatch({ type: 'IS_LOGIN', payload: true });
   };
 
   const handlePlaceOrder = async () => {
     const isConnectionAvailable = window.navigator.onLine;
-    dispatch(isLogin(true));
+    dispatch({ type: 'IS_LOGIN', payload: true });
     if (isConnectionAvailable) {
       fetch(PLACE_ORDER_URL,
         {

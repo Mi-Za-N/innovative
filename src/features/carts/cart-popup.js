@@ -10,7 +10,7 @@ import { CURRENCY } from '../../utils/constant';
 import { CartSlidePopup } from './cart.style';
 import { FormattedMessage } from 'react-intl';
 import { useCart } from '../../contexts/cart/use-cart';
-
+import { useAppState } from "../../contexts/app/app.provider"
 const CartPopupStyle = createGlobalStyle`
   .cartPopup{
     top: auto !important;
@@ -36,6 +36,7 @@ const CartPopupStyle = createGlobalStyle`
 const CartPopUp = ({
   deviceType: { mobile, tablet, desktop },
 }) => {
+  //const mobile = useAppState("isMobile");
   const { isOpen, cartItemsCount, toggleCart, calculatePrice } = useCart();
   const handleModal = () => {
     openModal({
@@ -72,40 +73,40 @@ const CartPopUp = ({
               cartItemsCount > 1 ? (
                 <FormattedMessage id='cartItems' defaultMessage='items' />
               ) : (
-                <FormattedMessage id='cartItem' defaultMessage='item' />
-              )
+                  <FormattedMessage id='cartItem' defaultMessage='item' />
+                )
             }
             price={calculatePrice()}
-            pricePrefix='$'
+            pricePrefix={CURRENCY}
             onClick={handleModal}
           />
         </>
       ) : (
-        <>
-          <CartSlidePopup 
-          className={cartSliderClass}
-          >
-            {isOpen && (
-              <Cart onCloseBtnClick={toggleCart} scrollbarHeight='100vh' />
-            )}
-          </CartSlidePopup>
+          <>
+            <CartSlidePopup
+              className={cartSliderClass}
+            >
+              {isOpen && (
+                <Cart onCloseBtnClick={toggleCart} scrollbarHeight='100vh' />
+              )}
+            </CartSlidePopup>
 
-          <BoxedCartButton
-            className='product-cart'
-            itemCount={cartItemsCount}
-            itemPostfix={
-              cartItemsCount > 1 ? (
-                <FormattedMessage id='cartItems' defaultMessage='items' />
-              ) : (
-                <FormattedMessage id='cartItem' defaultMessage='item' />
-              )
-            }
-            price={calculatePrice()}
-            pricePrefix={CURRENCY}
-            onClick={toggleCart}
-          />
-        </>
-      )}
+            <BoxedCartButton
+              className='product-cart'
+              itemCount={cartItemsCount}
+              itemPostfix={
+                cartItemsCount > 1 ? (
+                  <FormattedMessage id='cartItems' defaultMessage='items' />
+                ) : (
+                    <FormattedMessage id='cartItem' defaultMessage='item' />
+                  )
+              }
+              price={calculatePrice()}
+              pricePrefix={CURRENCY}
+              onClick={toggleCart}
+            />
+          </>
+        )}
     </>
   );
 };

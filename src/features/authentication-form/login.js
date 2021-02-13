@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useDispatch, useSelector} from "react-redux";
-import { isLogin } from "../../store/actions/webDataInfo";
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 import MaskedInput from 'react-text-mask';
 import { SEND_OTP_URL, REGISTER_CUSTOMER_URL, PLACE_ORDER_URL, API_KEY } from '../../common/baseUrl';
+import { useAppState, useAppDispatch } from "../../contexts/app/app.provider"
 
 import {
   Button,
@@ -15,15 +14,17 @@ import {
 } from './authentication-form.style';
 import {
   CheckoutInformation,
-  InformationBox} from '../../features/checkouts/checkout-two/checkout-two.style';
+  InformationBox
+} from '../../features/checkouts/checkout-two/checkout-two.style';
 
-import { FieldWrapper} from '../../components/address-card/address-card.style';
+import { FieldWrapper } from '../../components/address-card/address-card.style';
 import TextField from '../../components/forms/text-field';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { closeModal } from '@redq/reuse-modal';
 
 export default function SignInModal() {
-  const Login = useSelector((state) => state.dataInfo.isLogin);
+  const dispatch = useAppDispatch();
+  const Login = useAppState("isLogin");
 
   const [mobileNo, setMobileNo] = useState('');
   const [name, setName] = useState('');
@@ -31,7 +32,6 @@ export default function SignInModal() {
   const [otp, setOTP] = useState('');
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  // const [isLogin, setIsLogin] = useState(false);
   const [clickOnLogin, setClickOnLogin] = useState(false);
 
   const [tempOTP, setTempOTP] = useState('');
@@ -45,8 +45,7 @@ export default function SignInModal() {
       setAddress(CustInfo.address);
       setMobileNo(CustInfo.mobile);
       setClickOnLogin(true);
-      // setIsLogin(true);
-      dispatch(isLogin(true));
+      dispatch({ type: 'IS_LOGIN', payload: true });
     }
   }, []);
 
@@ -66,8 +65,7 @@ export default function SignInModal() {
   };
 
   const handleLogin = (e) => {
-    // setIsLogin(true)
-    dispatch(isLogin(false));
+    dispatch({ type: 'IS_LOGIN', payload: false });
     e.preventDefault();
 
     let RandomNumber = Math.floor(Math.random() * 8999 + 1000);
@@ -76,13 +74,6 @@ export default function SignInModal() {
     const url = SEND_OTP_URL + mobileNo + '/' + RandomNumber + '/' + API_KEY;
 
     checkInternetConnection(url);
-
-    //let InCartItems = [];
-    // for (const key in items) {
-    //   InCartItems.push(items[key]);
-    // }
-    // console.log(InCartItems);
-
   };
 
   const checkInternetConnection = (url) => {
@@ -91,13 +82,12 @@ export default function SignInModal() {
   }
 
   const send_sms = (url, isConnectionAvailable) => {
-    console.log(url);
     if (isConnectionAvailable) {
       setClickOnLogin(true);
       return fetch(url)
         .then((response) => response.json())
         .then((responseJson) => {
-          
+
           setName(responseJson.cust_name);
           setAddress(responseJson.address);
         })
@@ -122,9 +112,8 @@ export default function SignInModal() {
     }
   }
 
-  const dispatch = useDispatch();
   const handleSubmit = () => {
-    dispatch(isLogin(true));
+    dispatch({ type: 'IS_LOGIN', payload: true });
     closeModal();
     const isConnectionAvailable = window.navigator.onLine;
     if (otp == tempOTP) {
@@ -197,7 +186,7 @@ export default function SignInModal() {
   };
 
 
-  //   const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // const [isValid, setIsValid] = useState(false);
   // const [isLogin, setIsLogin] = useState(false);
   // const [clickOnLogin, setClickOnLogin] = useState(false);
@@ -240,112 +229,111 @@ export default function SignInModal() {
   return (
     <Wrapper>
       <Container>
-        
         <CheckoutInformation>
-            {clickOnLogin === false ? (
-              <InformationBox  >
-                <FieldWrapper>
-                  <MaskedInput
-                    mask={[
-                      '0',
-                      /[1-9]/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                      /\d/,
-                    ]}
-                    className="form-control"
-                    placeholder="Enter Your Mobile Number"
-                    guide={false}
-                    id="mobileNo"
-                    value={mobileNo}
-                    onChange={changeInput}
+          {clickOnLogin === false ? (
+            <InformationBox  >
+              <FieldWrapper>
+                <MaskedInput
+                  mask={[
+                    '0',
+                    /[1-9]/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                    /\d/,
+                  ]}
+                  className="form-control"
+                  placeholder="Enter Your Mobile Number"
+                  guide={false}
+                  id="mobileNo"
+                  value={mobileNo}
+                  onChange={changeInput}
+                  // onBlur={handleBlur}
+                  name="number"
+                  render={(ref, props) => (
+                    <StyledInput ref={ref} {...props} />
+                  )}
+                />
+              </FieldWrapper>
+
+              <Button
+                onClick={handleLogin}
+                // disabled={isSubmitting}
+                type="submit"
+                style={{ width: '100%', height: '44px' }}
+              >
+                <FormattedMessage
+                  id="savedContactId"
+                  defaultMessage="Login with OTP"
+                />
+              </Button>
+            </InformationBox>
+          ) : (
+              <>
+                <InformationBox>
+                  <Heading>Your Information</Heading>
+                  <FieldWrapper>
+                    <TextField
+                      id="name"
+                      type="text"
+                      placeholder="Enter Name"
+                      value={name}
+                      onChange={changeInput}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper>
+                    <TextField
+                      id="addr"
+                      as="textarea"
+                      placeholder="Enter Address"
+                      // error={touched.info && errors.info}
+                      value={address}
+                      onChange={changeInput}
                     // onBlur={handleBlur}
-                    name="number"
-                    render={(ref, props) => (
-                      <StyledInput ref={ref} {...props} />
+                    />
+                  </FieldWrapper>
+                  {Login === false ? (
+                    <>
+                      <FieldWrapper>
+                        <TextField
+                          id="otp"
+                          type="text"
+                          placeholder="Enter your OTP"
+                          // error={touched.name && errors.name}
+                          value={otp}
+                          onChange={changeInput}
+                        // onBlur={handleBlur}
+                        />
+                      </FieldWrapper>
+                      <Button
+                        type='button'
+                        onClick={handleSubmit}
+                        // disabled={!isValid}
+                        size='big'
+                        loading={loading}
+                        style={{ width: '100%' }}
+                      >
+                        <FormattedMessage
+                          id='processCheckout'
+                          defaultMessage='Login'
+                        />
+                      </Button>
+                    </>
+                  ) : (
+                      null
                     )}
-                  />
-                </FieldWrapper>
 
-                <Button
-                  onClick={handleLogin}
-                  // disabled={isSubmitting}
-                  type="submit"
-                  style={{ width: '100%', height: '44px' }}
-                >
-                  <FormattedMessage
-                    id="savedContactId"
-                    defaultMessage="Login with OTP"
-                  />
-                </Button>
-              </InformationBox>
-            ) : (
-                <>
-                  <InformationBox>
-                    <Heading>Your Information</Heading>
-                    <FieldWrapper>
-                      <TextField
-                        id="name"
-                        type="text"
-                        placeholder="Enter Name"
-                        value={name}
-                        onChange={changeInput}
-                      />
-                    </FieldWrapper>
+                </InformationBox>
 
-                    <FieldWrapper>
-                      <TextField
-                        id="addr"
-                        as="textarea"
-                        placeholder="Enter Address"
-                        // error={touched.info && errors.info}
-                        value={address}
-                        onChange={changeInput}
-                      // onBlur={handleBlur}
-                      />
-                    </FieldWrapper>
-                    {Login === false ? (
-                      <>
-                        <FieldWrapper>
-                          <TextField
-                            id="otp"
-                            type="text"
-                            placeholder="Enter your OTP"
-                            // error={touched.name && errors.name}
-                            value={otp}
-                            onChange={changeInput}
-                          // onBlur={handleBlur}
-                          />
-                        </FieldWrapper>
-                        <Button
-                          type='button'
-                          onClick={handleSubmit}
-                          // disabled={!isValid}
-                          size='big'
-                          loading={loading}
-                          style={{ width: '100%' }}
-                        >
-                          <FormattedMessage
-                            id='processCheckout'
-                            defaultMessage='Login'
-                          />
-                        </Button>
-                      </>
-                    ) : (
-                        null
-                      )}
-
-                  </InformationBox>
-
-                </>
-              )}
-          </CheckoutInformation>
+              </>
+            )}
+        </CheckoutInformation>
 
       </Container>
     </Wrapper>

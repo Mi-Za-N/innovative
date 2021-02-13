@@ -10,15 +10,13 @@ import { isCategoryPage } from './is-home-page';
 const MobileHeader = dynamic(() => import('./header/mobile-header'), {
   ssr: false,
 });
-
-
-
 const Layout = ({
   className,
   children,
   // deviceType: { mobile, tablet, desktop },
   token,
 }) => {
+  console.log('main');
   const { pathname, query } = useRouter();
   const isSticky =
     useAppState('isSticky') ||

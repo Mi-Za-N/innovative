@@ -6,7 +6,6 @@ const AuthMenu = dynamic(() => import('../auth-menu'), { ssr: false });
 export const RightMenu = ({
   onLogout,
   avatar,
-  isAuthenticated,
   onJoin,
 }) => {
   return (
@@ -31,7 +30,6 @@ export const RightMenu = ({
         avatar={avatar}
         onJoin={onJoin}
         onLogout={onLogout}
-        isAuthenticated={isAuthenticated}
       />
     </RightMenuBox>
   );
