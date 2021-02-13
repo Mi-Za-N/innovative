@@ -55,7 +55,6 @@ import Address from '../../../features/address/address';
 import { isLogin } from "../../../store/actions/webDataInfo";
 import { useAppState, useAppDispatch } from "../../../contexts/app/app.provider";
 
-
 const OrderItem = ({ product }) => {
   const { id, quantity, product_title_eng, name, unit, sale_price, salePrice } = product;
   const displayPrice = salePrice ? salePrice : sale_price;
@@ -70,7 +69,7 @@ const OrderItem = ({ product }) => {
         {CURRENCY}
         {(displayPrice * quantity).toFixed(2)}
       </Price>
-    </Items>
+    </Items>   
   );
 };
 
