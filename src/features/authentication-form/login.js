@@ -36,7 +36,6 @@ export default function SignInModal() {
 
   const [tempOTP, setTempOTP] = useState('');
 
-
   useEffect(() => {
     //localStorage.removeItem('user')
     let CustInfo = JSON.parse(localStorage.getItem('user'));
@@ -65,9 +64,10 @@ export default function SignInModal() {
   };
 
   const handleLogin = (e) => {
-    dispatch({ type: 'IS_LOGIN', payload: false });
+    alert('ok');
     e.preventDefault();
-
+    setClickOnLogin(true);
+    dispatch({ type: 'IS_LOGIN', payload: false });
     let RandomNumber = Math.floor(Math.random() * 8999 + 1000);
     setTempOTP(RandomNumber);
 
@@ -78,7 +78,7 @@ export default function SignInModal() {
 
   const checkInternetConnection = (url) => {
     const isConnectionAvailable = window.navigator.onLine;
-    send_sms(url, isConnectionAvailable);
+    //send_sms(url, isConnectionAvailable);
   }
 
   const send_sms = (url, isConnectionAvailable) => {
@@ -225,7 +225,7 @@ export default function SignInModal() {
   //     closeModal();
   //   }
   // };
-
+console.log(clickOnLogin);
   return (
     <Wrapper>
       <Container>

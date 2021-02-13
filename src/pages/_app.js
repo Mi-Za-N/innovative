@@ -3,6 +3,7 @@ import { IntlProvider } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from '../site-settings/site-theme/default';
 import { AppProvider } from '../contexts/app/app.provider';
+import { AuthProvider } from '../contexts/auth/auth.provider';
 import { CartProvider } from '../contexts/cart/use-cart';
 import { useMedia } from '../utils/use-media';
 
@@ -26,22 +27,24 @@ export default function ExtendedApp({ Component, pageProps }) {
   const mobile = useMedia('(max-width: 580px)');
   const tablet = useMedia('(max-width: 991px)');
   const desktop = useMedia('(min-width: 992px)');
-  
+
   return (
     <ThemeProvider theme={defaultTheme}>
-      <GlobalStyle />
-      <CartProvider>
+      <AuthProvider>
         <AppProvider>
           <AppLayout>
-            <IntlProvider locale="en">
-              <Component
-                {...pageProps}
-                deviceType={{ mobile, tablet, desktop }}
-              />
-            </IntlProvider>
+            <GlobalStyle />
+            <CartProvider>
+              <IntlProvider locale="en">
+                <Component
+                  {...pageProps}
+                  deviceType={{ mobile, tablet, desktop }}
+                />
+              </IntlProvider>
+            </CartProvider>
           </AppLayout>
         </AppProvider>
-      </CartProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

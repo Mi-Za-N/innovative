@@ -12,9 +12,9 @@ export default function AuthenticationForm() {
     RenderForm = SignInForm;
   }
 
-  if (authState.currentForm === 'signUp') {
-    RenderForm = SignOutForm;
-  }
+  // if (authState.currentForm === 'signUp') {
+  //   RenderForm = SignOutForm;
+  // }
 
   // if (authState.currentForm === 'forgotPass') {
   //   RenderForm = ForgotPassForm;
